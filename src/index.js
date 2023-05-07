@@ -5,7 +5,7 @@ import axios from 'axios';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const axios = require('axios').default;
+// const axios = require('axios').default;
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '36126930-7b2057d774b58ed23a3e8d721';
 
