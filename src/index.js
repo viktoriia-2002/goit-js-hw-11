@@ -1,4 +1,3 @@
-import './css/style.css'
 import Notiflix from 'notiflix';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import axios from 'axios';
@@ -17,6 +16,7 @@ const refs = {
 };
 
 let page = 1;
+refs.loadMoreBtn.style.visibility = 'hidden';
 
 refs.form.addEventListener('submit', onSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
@@ -24,7 +24,6 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 function onSubmit(event) {
   event.preventDefault();
   refs.gallery.innerHTML = '';
-
   const searchQuery = refs.input.value.trim();
 
   if (searchQuery === '') {
@@ -134,8 +133,10 @@ function scrollDown() {
 }
 
 function checkLoadMoreButtonVisibility(totalHits) {
-  if (page) {
-    refs.loadMoreBtn.style.display = 'none';
+  if (page === 1) {
+    refs.loadMoreBtn.style.visibility = 'visible';
+    refs.loadMoreBtn.style.display = 'flex';
+    refs.loadMoreBtn.style.margin = 'auto';
   } else if (page > 1 && totalHits > page * 40) {
     refs.loadMoreBtn.style.display = 'block';
   } else {

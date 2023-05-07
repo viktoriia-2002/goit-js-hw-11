@@ -27,4 +27,22 @@
   background-position: center;
 }
 
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 50px;
+}
 
+// .info.item {
+//   display: grid;
+// } 
+
+// .info {
+//   display: flex;
+// }
+
+img {
+  height: 350px;
+}
