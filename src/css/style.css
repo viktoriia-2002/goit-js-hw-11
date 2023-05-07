@@ -1,0 +1,24 @@
+.gallery {
+  display: flex;
+}
+
+.photo-card {
+  border: 1px solid grey;
+}
+
+.info {
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+}
+
+.photo-card:not(:first-child){
+  margin-left: 20px;
+}
+
+/* .info > p {
+    display: grid;
+} */
+.info-item {
+    display: grid;
+}
