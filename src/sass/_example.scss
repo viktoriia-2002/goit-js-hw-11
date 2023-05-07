@@ -45,4 +45,9 @@
 
 img {
   height: 350px;
+  width: 100%;
+}
+
+.photo-card {
+  flex-basis: calc((80% - 20px) / 4);
 }

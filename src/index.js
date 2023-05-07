@@ -133,14 +133,15 @@ function scrollDown() {
 }
 
 function checkLoadMoreButtonVisibility(totalHits) {
+  console.log({ totalHits });
   if (page === 1) {
     refs.loadMoreBtn.style.visibility = 'visible';
     refs.loadMoreBtn.style.display = 'flex';
-    refs.loadMoreBtn.style.margin = 'auto';
+    refs.loadMoreBtn.style.margin = '30px auto';
   } else if (page > 1 && totalHits > page * 40) {
-    refs.loadMoreBtn.style.display = 'block';
+    refs.loadMoreBtn.style.visibility = 'visible';
   } else {
-    refs.loadMoreBtn.style.display = 'none';
+    refs.loadMoreBtn.style.visibility = 'hidden';
     Notiflix.Notify.info(
       "We're sorry, but you've reached the end of search results."
     );
