@@ -1,13 +1,9 @@
 import Notiflix from 'notiflix';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import axios from 'axios';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-// import images from './render.js';
-
-// const axios = require('axios').default;
-const BASE_URL = 'https://pixabay.com/api/';
-const API_KEY = '36126930-7b2057d774b58ed23a3e8d721';
+import { renderImages } from './render.js';
+import { getImages } from './async.js';
 
 const refs = {
   form: document.querySelector('#search-form'),
@@ -32,9 +28,8 @@ function onSubmit(event) {
   }
 
   page = 1;
-  console.log(getImages());
 
-  getImages(searchQuery)
+  getImages(searchQuery, page)
     .then(images => {
       if (images.length === 0) {
         checkLoadMoreButtonVisibility(0);
@@ -43,7 +38,7 @@ function onSubmit(event) {
         );
       } else {
         checkLoadMoreButtonVisibility(images.totalHits);
-        renderImages(images.hits);
+        renderImages(images.hits, refs);
       }
     })
     .catch(error => {
@@ -63,10 +58,10 @@ function onLoadMore() {
 
   page++;
 
-  getImages(searchQuery)
+  getImages(searchQuery, page)
     .then(images => {
       checkLoadMoreButtonVisibility(images.totalHits);
-      renderImages(images.hits);
+      renderImages(images.hits, refs);
     })
     .catch(error => {
       console.error(error);
@@ -75,67 +70,8 @@ function onLoadMore() {
       );
     });
 }
-async function getImages(searchQuery) {
-  try {
-    const response = await axios.get(BASE_URL, {
-      params: {
-        key: API_KEY,
-        q: searchQuery,
-        image_type: 'photo',
-        orientation: 'horizontal',
-        safesearch: true,
-        per_page: 40,
-        page: page,
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-function renderImages(images) {
-  const imageElMarkup = images.map(image => {
-    return `
-        <a href="${image.largeImageURL}">
-          <div class="photo-card">
-            <img src="${image.webformatURL} width="500"  alt="${image.tags}" width="500" loading="lazy" />
-            <div class="info">
-              <p class="info-item">
-                <b>Likes:</b> ${image.likes}
-              </p>
-              <p class="info-item">
-                <b>Views:</b> ${image.views}
-              </p>
-              <p class="info-item">
-                <b>Comments:</b> ${image.comments}
-              </p>
-              <p class="info-item">
-                <b>Downloads:</b> ${image.downloads}
-              </p>
-            </div>
-          </div>
-        </a>`;
-  });
-
-  refs.gallery.insertAdjacentHTML('beforeend', imageElMarkup.join(''));
-
-  lightbox.refresh();
-
-  scrollDown();
-}
-
-function scrollDown() {
-  window.scrollTo({
-    top: document.documentElement.scrollHeight,
-    behavior: 'smooth',
-  });
-}
 
 function checkLoadMoreButtonVisibility(totalHits) {
-  console.log({ totalHits });
   if (page === 1) {
     refs.loadMoreBtn.style.visibility = 'visible';
     refs.loadMoreBtn.style.display = 'flex';
@@ -150,7 +86,7 @@ function checkLoadMoreButtonVisibility(totalHits) {
   }
 }
 
-var lightbox = new SimpleLightbox('.gallery a', {
+lightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
   rel: false,
 });
