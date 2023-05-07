@@ -8,17 +8,11 @@
 
 .info {
   display: flex;
-  /* justify-content: center;
-  align-items: center; */
+
 }
 
 .photo-card:not(:first-child){
   margin-left: 20px;
 }
 
-/* .info > p {
-    display: grid;
-} */
-.info-item {
-    display: grid;
-}
+
