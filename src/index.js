@@ -3,6 +3,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import axios from 'axios';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+// import images from './render.js';
 
 // const axios = require('axios').default;
 const BASE_URL = 'https://pixabay.com/api/';
@@ -31,6 +32,7 @@ function onSubmit(event) {
   }
 
   page = 1;
+  console.log(getImages());
 
   getImages(searchQuery)
     .then(images => {
@@ -73,7 +75,6 @@ function onLoadMore() {
       );
     });
 }
-
 async function getImages(searchQuery) {
   try {
     const response = await axios.get(BASE_URL, {
@@ -94,6 +95,7 @@ async function getImages(searchQuery) {
     throw error;
   }
 }
+
 function renderImages(images) {
   const imageElMarkup = images.map(image => {
     return `
