@@ -134,7 +134,7 @@ function scrollDown() {
 }
 
 function checkLoadMoreButtonVisibility(totalHits) {
-  if (page === 1) {
+  if (page) {
     refs.loadMoreBtn.style.display = 'none';
   } else if (page > 1 && totalHits > page * 40) {
     refs.loadMoreBtn.style.display = 'block';

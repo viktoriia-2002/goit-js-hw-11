@@ -1,18 +1,21 @@
-.gallery {
+/* .gallery {
   display: flex;
+} */
+/* 
+.gallery  {
+  display: table-column;
 }
-
 .photo-card {
   border: 1px solid grey;
 }
 
 .info {
-  display: flex;
+  display: none;
 
 }
 
 .photo-card:not(:first-child){
   margin-left: 20px;
 }
-
+ */
 
