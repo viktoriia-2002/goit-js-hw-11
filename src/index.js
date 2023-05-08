@@ -86,12 +86,12 @@ function checkLoadMoreButtonVisibility(totalHits) {
   }
 }
 
+const gallerylightbox = new SimpleLightbox('.gallery a')
 
-
-lightbox = new SimpleLightbox('.gallery a', {
-  captionDelay: 250,
-  rel: false,
-});
+// lightbox = new SimpleLightbox('.gallery a', {
+//   captionDelay: 250,
+//   rel: false,
+// });
 
 document.body.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
