@@ -86,6 +86,8 @@ function checkLoadMoreButtonVisibility(totalHits) {
   }
 }
 
+
+
 lightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
   rel: false,
