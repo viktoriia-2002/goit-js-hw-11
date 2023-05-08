@@ -1,10 +1,10 @@
-function scrollDown() {
+const scrollDown = () => {
   window.scrollTo({
     top: document.documentElement.scrollHeight,
     behavior: 'smooth',
   });
-}
-const renderImages = (images, refs, totalHits) => {
+};
+const renderImages = (images, refs, lightbox) => {
   const imageElMarkup = images.map(image => {
     return `
           <a href="${image.largeImageURL}">
@@ -32,7 +32,7 @@ const renderImages = (images, refs, totalHits) => {
 
   lightbox.refresh();
 
-  function displayTotalHits(totalHits) {
+  const displayTotalHits = totalHits => {
     const totalHitsEl = document.querySelector('.total-hits');
     if (totalHitsEl) {
       totalHitsEl.textContent = `Total Images Found: ${totalHits}`;
@@ -40,10 +40,9 @@ const renderImages = (images, refs, totalHits) => {
       const totalHitsMarkup = `<p class="total-hits">Total Images Found: ${totalHits}</p>`;
       refs.gallery.insertAdjacentHTML('beforebegin', totalHitsMarkup);
     }
-  
+
     Notiflix.Notify.info(`Total Images Found: ${totalHits}`);
-  }
-  
+  };
 
   scrollDown();
 };

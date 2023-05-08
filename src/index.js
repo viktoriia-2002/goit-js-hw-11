@@ -1,3 +1,4 @@
+
 import Notiflix from 'notiflix';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from 'simplelightbox';
@@ -13,12 +14,30 @@ const refs = {
 };
 
 let page = 1;
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionDelay: 250,
+  rel: false,
+});
+
+const checkLoadMoreButtonVisibility = totalHits => {
+  if (page === 1) {
+    refs.loadMoreBtn.style.visibility = 'visible';
+    refs.loadMoreBtn.style.display = 'flex';
+    refs.loadMoreBtn.style.margin = '30px auto';
+  } else if (page > 1 && totalHits > page * 40) {
+    refs.loadMoreBtn.style.visibility = 'visible';
+  } else {
+    refs.loadMoreBtn.style.visibility = 'hidden';
+    Notiflix.Notify.info(
+      "We're sorry, but you've reached the end of search results."
+    );
+  }
+};
+
 refs.loadMoreBtn.style.visibility = 'hidden';
 
-refs.form.addEventListener('submit', onSubmit);
-refs.loadMoreBtn.addEventListener('click', onLoadMore);
-
-function onSubmit(event) {
+const onSubmit = event => {
   event.preventDefault();
   refs.gallery.innerHTML = '';
   const searchQuery = refs.input.value.trim();
@@ -38,7 +57,7 @@ function onSubmit(event) {
         );
       } else {
         checkLoadMoreButtonVisibility(images.totalHits);
-        renderImages(images.hits, refs);
+        renderImages(images.hits, refs, lightbox);
       }
     })
     .catch(error => {
@@ -47,9 +66,11 @@ function onSubmit(event) {
         'An error occurred while fetching images. Please try again later.'
       );
     });
-}
+};
 
-function onLoadMore() {
+refs.form.addEventListener('submit', onSubmit);
+
+const onLoadMore = () => {
   const searchQuery = refs.input.value.trim();
 
   if (searchQuery === '') {
@@ -61,7 +82,7 @@ function onLoadMore() {
   getImages(searchQuery, page)
     .then(images => {
       checkLoadMoreButtonVisibility(images.totalHits);
-      renderImages(images.hits, refs);
+      renderImages(images.hits, refs, lightbox);
     })
     .catch(error => {
       console.error(error);
@@ -69,29 +90,9 @@ function onLoadMore() {
         'An error occurred while fetching more images. Please try again later.'
       );
     });
-}
+};
 
-function checkLoadMoreButtonVisibility(totalHits) {
-  if (page === 1) {
-    refs.loadMoreBtn.style.visibility = 'visible';
-    refs.loadMoreBtn.style.display = 'flex';
-    refs.loadMoreBtn.style.margin = '30px auto';
-  } else if (page > 1 && totalHits > page * 40) {
-    refs.loadMoreBtn.style.visibility = 'visible';
-  } else {
-    refs.loadMoreBtn.style.visibility = 'hidden';
-    Notiflix.Notify.info(
-      "We're sorry, but you've reached the end of search results."
-    );
-  }
-}
-
-const gallerylightbox = new SimpleLightbox('.gallery a')
-
-// lightbox = new SimpleLightbox('.gallery a', {
-//   captionDelay: 250,
-//   rel: false,
-// });
+refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
 document.body.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
